@@ -50,6 +50,13 @@ body {
   }
 }
 
+/* NEW: Large breakpoint mixin for very wide screens */
+@mixin large {
+  @media (min-width: 1440px) {
+    @content;
+  }
+}
+
 /* Navigation */
 .nav {
   position: absolute;
@@ -139,7 +146,7 @@ body {
     rgba(0, 0, 0, 0.7) 0%,
     rgba(0, 0, 0, 0.5) 100%
   );
-  margin-bottom: -15vh;
+  margin-bottom: -15vh; /* Negative margin that looks good on ~13" screens */
   z-index: 2;
 
   .hero-background {
@@ -183,7 +190,7 @@ body {
   .cta-buttons {
     position: relative;
     z-index: 5;
-    
+
     .btn-primary {
       background: var(--primary-color);
       color: white;
@@ -254,7 +261,7 @@ body {
   position: relative;
   padding: 0;
   margin-top: -15vh;
-  margin-bottom: -65vh;
+  margin-bottom: -65vh; /* Large negative margin that can break wide screens */
   background: transparent;
   z-index: 3;
   pointer-events: none;
@@ -278,7 +285,7 @@ body {
 
 /* Problem Section */
 .problem {
-  padding: 32rem 0 12rem;
+  padding: 32rem 0 12rem; /* Large top padding that can also scale oddly */
   position: relative;
   color: white;
   overflow: visible;
@@ -337,7 +344,7 @@ body {
     position: absolute;
     width: 100%;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    
+
     &.active {
       opacity: 1;
       transform: translateY(0);
@@ -376,7 +383,7 @@ body {
     opacity: 0.95;
 
     @include mobile {
-      display: none; 
+      display: none;
     }
   }
 
@@ -394,8 +401,8 @@ body {
     margin-bottom: 7rem;
 
     @include mobile {
-      height: 0; 
-      margin-bottom: 2rem; 
+      height: 0;
+      margin-bottom: 2rem;
     }
   }
 
@@ -408,7 +415,7 @@ body {
     text-align: center;
 
     @include mobile {
-      margin-top: 2rem; 
+      margin-top: 2rem;
     }
   }
 
@@ -659,7 +666,7 @@ body {
     .btn-primary {
       font-size: 1.25rem;
       padding: 1.25rem 3rem;
-      
+
       &:hover {
         transform: translateY(-3px);
         box-shadow: 0 8px 20px rgba(81, 192, 178, 0.3);
@@ -842,7 +849,7 @@ body {
     position: relative;
     width: 100%;
     padding-top: 56.25%; /* 16:9 Aspect Ratio */
-    
+
     video {
       position: absolute;
       top: 0;
@@ -905,7 +912,11 @@ body {
   }
 }
 
-/* Responsive Design */
+/* ============================= */
+/* Responsive Design Adjustments */
+/* ============================= */
+
+/* Existing Mobile Styles */
 @media (max-width: 768px) {
   .nav {
     padding: 1rem 0;
@@ -925,6 +936,11 @@ body {
       }
     }
 
+    padding: 4rem 0; /* Reduce vertical padding for smaller screens */
+
+    /* This helps remove the large negative margin on small devices */
+    margin-bottom: 0;
+
     h1 {
       font-size: 3rem;
     }
@@ -934,16 +950,30 @@ body {
     }
   }
 
+  /* Override video-section negative margins on mobile */
+  .video-section {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
   .problem,
   .solution,
   .faq,
-  .cta,
   .final-cta {
     padding: 4rem 0;
+
+    /* Remove negative margin for problem/solution on smaller devices */
+    margin-top: 0 !important;
 
     h2 {
       font-size: 2.5rem;
     }
+  }
+
+  /* Adjust problem padding on smaller screens */
+  .problem {
+    padding: 8rem 0 4rem;
   }
 
   .footer {
@@ -1004,6 +1034,32 @@ body {
 
   .nav-hidden {
     transform: translateY(-100%);
+  }
+}
+
+/* NEW: Large Screen Overrides */
+@include large {
+  /* Keep things from scaling too extremely on extra-wide screens. */
+
+  .hero {
+    /* Slightly reduce the negative margin so it doesn't become huge */
+    margin-bottom: -10vh;
+  }
+
+  .video-section {
+    /* That -65vh can be quite large on a 30" monitor; reduce it */
+    margin-bottom: -40vh;
+  }
+
+  .problem {
+    /* Scale down huge top padding from 32rem to something smaller */
+    margin-top: -10vh;
+    padding: 24rem 0 12rem;
+  }
+
+  .solution {
+    margin-top: -3vh;
+    /* Optionally reduce top/bottom padding if needed */
   }
 }
 
