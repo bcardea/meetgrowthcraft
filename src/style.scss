@@ -408,11 +408,13 @@ body {
   background: black;
   z-index: 1;
   padding: 8rem 0;
-  padding-top: calc(25vh + 4rem);
+  padding-top: calc(25vh + 4rem); /* Desktop padding */
 
   @include mobile {
-    padding: 4rem 0;
-    padding-top: calc(65vh + 2rem); /* Increased from 50vh to 65vh */
+    padding-bottom: 4rem; /* Only set bottom padding */
+    padding-top: calc(65vh + 2rem); /* Mobile top padding */
+    padding-left: 0;
+    padding-right: 0;
   }
 
   @include tablet {
