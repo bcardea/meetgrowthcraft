@@ -412,8 +412,7 @@ body {
   padding-top: calc(25vh + 4rem);
 
   @include mobile {
-    padding-top: calc(15vh + 3rem);
-    padding: 4rem 0;
+    padding-top: calc(35vh + 4rem);
   }
 
   @include tablet {
