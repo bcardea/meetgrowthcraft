@@ -277,37 +277,42 @@ body {
   background: transparent;
   z-index: 3;
   pointer-events: none;
-  /* For smaller screens, no giant negative margin */
-  margin: 2rem 0;
 
-  @include tablet {
-    margin: 2rem 0;
-  }
+  /* Default positioning for tablets/mobile */
+  margin: 0;
+  margin-top: -10vh;
+  margin-bottom: -10vh;
 
   @include mobile {
-    margin: 2rem 0;
+    margin-top: -5vh;
+    margin-bottom: -5vh;
+  }
+
+  @include tablet {
+    margin-top: -8vh;
+    margin-bottom: -8vh;
   }
 
   @include desktop {
-    /* Restore big overlaps only on large screens */
-    margin-top: -15vh;
-    margin-bottom: -65vh;
+    /* On desktop, video should overlap hero and painpoints equally */
+    margin-top: -25vh;
+    margin-bottom: -25vh;
   }
 
   .container {
     max-width: 750px;
     margin: 0 auto;
-    padding: 0 2rem;
-  }
+    position: relative;
+    z-index: 2;
 
-  video {
-    width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55);
-    background: white;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    pointer-events: auto;
+    video {
+      width: 100%;
+      border-radius: 12px;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      pointer-events: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
   }
 }
 
@@ -318,35 +323,37 @@ body {
   color: white;
   overflow: visible;
   background: black;
-  /* Default => no negative margin on iPad/mobile */
-  margin-top: 0;
   z-index: 1;
 
-  @include tablet {
-    padding: 6rem 0;
-  }
+  /* Add padding to ensure content is visible below video */
+  padding-top: calc(25vh + 4rem);
 
   @include mobile {
+    padding-top: calc(15vh + 3rem);
     padding: 4rem 0;
   }
 
-  @include desktop {
-    /* On large desktop, overlap under the video-section again */
-    margin-top: -15vh;
+  @include tablet {
+    padding-top: calc(20vh + 3rem);
+    padding: 6rem 0;
   }
 
   .container {
     position: relative;
     z-index: 2;
-    margin-top: 2rem; /* keep it smaller so iPad doesn't see a huge gap */
+    padding-top: 4rem; /* Additional padding for content */
+
+    @include mobile {
+      padding-top: 2rem;
+    }
   }
 
   h2 {
     font-size: 3rem;
-    margin-bottom: 2rem;
     line-height: 1.2;
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
 
     @include mobile {
       font-size: 2rem;
