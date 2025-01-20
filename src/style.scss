@@ -306,7 +306,7 @@ body {
 
   @include mobile {
     margin-top: -15vh;
-    margin-bottom: -35vh; /* Increase bottom margin on mobile */
+    margin-bottom: -15vh;
   }
 
   @include tablet {
@@ -412,7 +412,7 @@ body {
 
   @include mobile {
     padding: 0; /* Reset all padding */
-    margin-top: calc(35vh + 4rem); /* Use margin instead of padding */
+    margin-top: calc(15vh + 2rem);
   }
 
   @include tablet {
