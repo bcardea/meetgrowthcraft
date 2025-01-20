@@ -37,7 +37,7 @@ body {
   padding: 0 2rem;
 }
 
-/* Responsive Breakpoints */
+/* Mixin Breakpoints */
 @mixin tablet {
   @media (max-width: 1024px) {
     @content;
@@ -50,9 +50,9 @@ body {
   }
 }
 
-/* NEW: Large breakpoint mixin for very wide screens */
-@mixin large {
-  @media (min-width: 1440px) {
+/* NEW: Desktop mixin for ≥1200px screens */
+@mixin desktop {
+  @media (min-width: 1200px) {
     @content;
   }
 }
@@ -114,7 +114,6 @@ body {
   }
 }
 
-/* Mobile Menu */
 .mobile-menu-button {
   display: none;
   background: none;
@@ -135,7 +134,6 @@ body {
 
 /* Hero Section */
 .hero {
-  /* We remove the large negative margin by default and only apply it on large screens */
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -147,7 +145,14 @@ body {
     rgba(0, 0, 0, 0.7) 0%,
     rgba(0, 0, 0, 0.5) 100%
   );
-  margin-bottom: 0; /* Changed from -15vh */
+  /* No negative margin by default (for tablets/iPads) */
+  margin-bottom: 0;
+  z-index: 2;
+
+  @include desktop {
+    /* Restore the layered overlap only on large screens */
+    margin-bottom: -15vh;
+  }
 
   @include tablet {
     padding: 6rem 0;
@@ -155,10 +160,6 @@ body {
 
   @include mobile {
     padding: 4rem 0;
-  }
-
-  @include large {
-    margin-bottom: -15vh; /* On very large screens, restore negative margin */
   }
 
   .hero-background {
@@ -179,7 +180,6 @@ body {
   .container {
     position: relative;
     z-index: 5;
-    /* Simplify to a single column; we can reintroduce fancy grid on large if desired */
     max-width: 750px;
     margin: 0 auto;
     text-align: right;
@@ -272,13 +272,13 @@ body {
 
 /* Video Section */
 .video-section {
-  /* Remove large negative margins by default, only use them on large screens */
   position: relative;
   padding: 0;
   background: transparent;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
-  margin: 2rem 0; /* new simpler default margin */
+  /* For smaller screens, no giant negative margin */
+  margin: 2rem 0;
 
   @include tablet {
     margin: 2rem 0;
@@ -288,9 +288,10 @@ body {
     margin: 2rem 0;
   }
 
-  @include large {
-    margin-top: -10vh; /* smaller negative margin on large screens */
-    margin-bottom: -40vh; /* was -65vh, reduced to avoid massive overlap */
+  @include desktop {
+    /* Restore big overlaps only on large screens */
+    margin-top: -15vh;
+    margin-bottom: -65vh;
   }
 
   .container {
@@ -312,13 +313,14 @@ body {
 
 /* Problem Section */
 .problem {
-  /* Remove negative margin so that the content is visible */
   padding: 8rem 0;
   position: relative;
   color: white;
   overflow: visible;
   background: black;
-  margin-top: 0; /* removed the -15vh */
+  /* Default => no negative margin on iPad/mobile */
+  margin-top: 0;
+  z-index: 1;
 
   @include tablet {
     padding: 6rem 0;
@@ -328,10 +330,15 @@ body {
     padding: 4rem 0;
   }
 
+  @include desktop {
+    /* On large desktop, overlap under the video-section again */
+    margin-top: -15vh;
+  }
+
   .container {
     position: relative;
     z-index: 2;
-    margin-top: 2rem; /* smaller top margin so it's clearly visible */
+    margin-top: 2rem; /* keep it smaller so iPad doesn't see a huge gap */
   }
 
   h2 {
@@ -413,16 +420,16 @@ body {
 
 /* Solution Section */
 .solution {
-  /* Removed negative margin by default. We only add small negative margin on large screens if needed. */
   position: relative;
   padding: 8rem 0;
+  /* Default => no negative margin on tablet/mobile */
   margin-top: 0;
   background: #51c0b2;
   overflow: visible;
   color: rgb(29, 29, 29);
 
-  @include large {
-    margin-top: -3vh;
+  @include desktop {
+    margin-top: -5vh;
   }
 
   &::before {
@@ -786,6 +793,18 @@ body {
   .container {
     max-width: 800px;
     margin: 0 auto;
+
+    /* Center the CTA buttons on all devices */
+    .final-cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+
+      @include mobile {
+        flex-direction: column;
+      }
+    }
   }
 
   h2 {
@@ -818,52 +837,50 @@ body {
   background: #1a1a1a;
   color: white;
 
-  .container {
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr repeat(1, 1fr);
-      gap: 4rem;
-      margin-bottom: 4rem;
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(1, 1fr);
+    gap: 4rem;
+    margin-bottom: 4rem;
 
-      @include mobile {
-        grid-template-columns: 1fr;
-      }
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
 
-      .footer-logo {
-        img {
-          height: 40px;
-          margin-bottom: 1rem;
-        }
-      }
-
-      .footer-links {
-        h4 {
-          font-size: 1.25rem;
-          margin-bottom: 1.5rem;
-        }
-
-        a {
-          display: block;
-          color: rgba(255, 255, 255, 0.8);
-          text-decoration: none;
-          margin-bottom: 0.75rem;
-          transition: color 0.3s ease;
-
-          &:hover {
-            color: white;
-          }
-        }
+    .footer-logo {
+      img {
+        height: 40px;
+        margin-bottom: 1rem;
       }
     }
 
-    .footer-bottom {
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      text-align: center;
-
-      p {
-        color: rgba(255, 255, 255, 0.6);
+    .footer-links {
+      h4 {
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
       }
+
+      a {
+        display: block;
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        margin-bottom: 0.75rem;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+
+    p {
+      color: rgba(255, 255, 255, 0.6);
     }
   }
 }
@@ -999,11 +1016,7 @@ body {
   }
 }
 
-/* ============================= */
-/* Responsive Design Adjustments */
-/* ============================= */
-
-/* Mobile-specific styles */
+/* Mobile-specific styles for navigation, etc. */
 @media (max-width: 768px) {
   .nav {
     padding: 1rem 0;
@@ -1026,25 +1039,5 @@ body {
 @media (max-width: 1024px) {
   .nav .container {
     padding: 0 2rem;
-  }
-}
-
-/* NEW: Large Screen Overrides */
-@include large {
-  /* Keep specialized negative margins only for extra-wide screens if desired */
-  .hero {
-    margin-bottom: -15vh;
-  }
-  .video-section {
-    margin-top: -10vh;
-    margin-bottom: -40vh;
-  }
-  .problem {
-    /* If you prefer negative margin here, uncomment:
-    margin-top: -15vh;
-    */
-  }
-  .solution {
-    margin-top: -3vh;
   }
 }
