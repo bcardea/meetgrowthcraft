@@ -135,6 +135,7 @@ body {
 
 /* Hero Section */
 .hero {
+  /* We remove the large negative margin by default and only apply it on large screens */
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -146,17 +147,18 @@ body {
     rgba(0, 0, 0, 0.7) 0%,
     rgba(0, 0, 0, 0.5) 100%
   );
-  margin-bottom: -15vh;
-  z-index: 2;
+  margin-bottom: 0; /* Changed from -15vh */
 
   @include tablet {
-    margin-bottom: -10vh;
     padding: 6rem 0;
   }
 
   @include mobile {
-    margin-bottom: -5vh;
     padding: 4rem 0;
+  }
+
+  @include large {
+    margin-bottom: -15vh; /* On very large screens, restore negative margin */
   }
 
   .hero-background {
@@ -177,29 +179,55 @@ body {
   .container {
     position: relative;
     z-index: 5;
-    display: grid;
-    grid-template-columns: 1fr 0.8fr 1fr;
-    gap: 2rem;
-    padding-right: 4rem;
+    /* Simplify to a single column; we can reintroduce fancy grid on large if desired */
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: right;
+  }
 
-    > * {
-      grid-column: 3;
+  h1 {
+    font-size: 4.2rem;
+    line-height: 1.15;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.1));
+    letter-spacing: -0.02em;
+
+    @include mobile {
+      font-size: 2.8rem;
+      text-align: center;
     }
+  }
 
-    .cta-buttons {
-      grid-column: 1 / -1;
-      justify-content: center;
-      margin: 2rem auto 4rem;
-      padding-right: 0;
-      max-width: 750px;
-      position: relative;
-      z-index: 5;
+  .hero-subtitle {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 3rem;
+    font-weight: 400;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    line-height: 1.5;
+    max-width: 540px;
+    margin-left: auto;
+
+    @include mobile {
+      font-size: 1.25rem;
+      text-align: center;
+      margin-right: auto;
     }
   }
 
   .cta-buttons {
-    position: relative;
-    z-index: 5;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+
+    @include mobile {
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
 
     .btn-primary {
       background: var(--primary-color);
@@ -240,50 +268,29 @@ body {
       }
     }
   }
-
-  h1 {
-    font-size: 4.2rem;
-    line-height: 1.15;
-    margin-bottom: 2rem;
-    font-weight: 700;
-    color: white;
-    text-align: right;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.1));
-    letter-spacing: -0.02em;
-  }
-
-  .hero-subtitle {
-    font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 3rem;
-    font-weight: 400;
-    text-align: right;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    line-height: 1.5;
-    max-width: 540px;
-    margin-left: auto;
-  }
 }
 
 /* Video Section */
 .video-section {
+  /* Remove large negative margins by default, only use them on large screens */
   position: relative;
   padding: 0;
-  margin-top: -15vh;
-  margin-bottom: -65vh;
   background: transparent;
-  z-index: 3;
+  z-index: 2;
   pointer-events: none;
+  margin: 2rem 0; /* new simpler default margin */
 
   @include tablet {
-    margin-top: -10vh;
-    margin-bottom: -45vh;
+    margin: 2rem 0;
   }
 
   @include mobile {
-    margin-top: -5vh;
-    margin-bottom: -35vh;
+    margin: 2rem 0;
+  }
+
+  @include large {
+    margin-top: -10vh; /* smaller negative margin on large screens */
+    margin-bottom: -40vh; /* was -65vh, reduced to avoid massive overlap */
   }
 
   .container {
@@ -300,22 +307,18 @@ body {
     aspect-ratio: 16/9;
     object-fit: cover;
     pointer-events: auto;
-
-    @include tablet {
-      height: auto;
-    }
   }
 }
 
 /* Problem Section */
 .problem {
+  /* Remove negative margin so that the content is visible */
   padding: 8rem 0;
   position: relative;
   color: white;
   overflow: visible;
   background: black;
-  margin-top: -15vh;
-  z-index: 1;
+  margin-top: 0; /* removed the -15vh */
 
   @include tablet {
     padding: 6rem 0;
@@ -328,7 +331,7 @@ body {
   .container {
     position: relative;
     z-index: 2;
-    margin-top: 7rem;
+    margin-top: 2rem; /* smaller top margin so it's clearly visible */
   }
 
   h2 {
@@ -337,6 +340,10 @@ body {
     line-height: 1.2;
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    @include mobile {
+      font-size: 2rem;
+    }
   }
 
   .lead {
@@ -344,6 +351,10 @@ body {
     color: rgba(255, 255, 255, 0.95);
     margin-bottom: 1.5rem;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+    @include mobile {
+      font-size: 1.25rem;
+    }
   }
 
   p {
@@ -360,6 +371,7 @@ body {
 
     @include mobile {
       margin-top: 1rem;
+      height: auto;
     }
   }
 
@@ -392,17 +404,26 @@ body {
       transform: translateY(-20px);
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
+
+    @include mobile {
+      font-size: 1.75rem;
+    }
   }
 }
 
 /* Solution Section */
 .solution {
+  /* Removed negative margin by default. We only add small negative margin on large screens if needed. */
   position: relative;
   padding: 8rem 0;
-  margin-top: -5vh;
+  margin-top: 0;
   background: #51c0b2;
   overflow: visible;
   color: rgb(29, 29, 29);
+
+  @include large {
+    margin-top: -3vh;
+  }
 
   &::before {
     content: '';
@@ -450,6 +471,7 @@ body {
     text-align: center;
 
     @include mobile {
+      font-size: 2.5rem;
       margin-top: 2rem;
     }
   }
@@ -474,6 +496,11 @@ body {
       background: rgba(255, 255, 255, 0.3);
       border-radius: 2px;
     }
+
+    @include mobile {
+      font-size: 1.25rem;
+      margin-bottom: 3rem;
+    }
   }
 
   .features-grid {
@@ -482,6 +509,12 @@ body {
     gap: 3rem;
     padding: 0 2rem;
     margin-bottom: 1rem;
+
+    @include mobile {
+      grid-template-columns: 1fr;
+      padding: 0 1rem;
+      gap: 2rem;
+    }
   }
 
   .feature {
@@ -552,6 +585,10 @@ body {
       text-align: center;
       margin-bottom: 3rem;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+      @include mobile {
+        font-size: 2rem;
+      }
     }
   }
 
@@ -675,6 +712,11 @@ body {
       box-shadow: 0 2px 8px rgba(81, 192, 178, 0.3);
       transform: translateY(-2px);
     }
+
+    @include mobile {
+      font-size: 2.5rem;
+      justify-content: center;
+    }
   }
 
   .price-option {
@@ -750,6 +792,10 @@ body {
     font-size: 3rem;
     margin-bottom: 2rem;
     line-height: 1.2;
+
+    @include mobile {
+      font-size: 2rem;
+    }
   }
 
   .btn-primary {
@@ -772,46 +818,52 @@ body {
   background: #1a1a1a;
   color: white;
 
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr repeat(1, 1fr);
-    gap: 4rem;
-    margin-bottom: 4rem;
+  .container {
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(1, 1fr);
+      gap: 4rem;
+      margin-bottom: 4rem;
 
-    .footer-logo {
-      img {
-        height: 40px;
-        margin-bottom: 1rem;
-      }
-    }
-
-    .footer-links {
-      h4 {
-        font-size: 1.25rem;
-        margin-bottom: 1.5rem;
+      @include mobile {
+        grid-template-columns: 1fr;
       }
 
-      a {
-        display: block;
-        color: rgba(255, 255, 255, 0.8);
-        text-decoration: none;
-        margin-bottom: 0.75rem;
-        transition: color 0.3s ease;
+      .footer-logo {
+        img {
+          height: 40px;
+          margin-bottom: 1rem;
+        }
+      }
 
-        &:hover {
-          color: white;
+      .footer-links {
+        h4 {
+          font-size: 1.25rem;
+          margin-bottom: 1.5rem;
+        }
+
+        a {
+          display: block;
+          color: rgba(255, 255, 255, 0.8);
+          text-decoration: none;
+          margin-bottom: 0.75rem;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: white;
+          }
         }
       }
     }
-  }
 
-  .footer-bottom {
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    text-align: center;
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
 
-    p {
-      color: rgba(255, 255, 255, 0.6);
+      p {
+        color: rgba(255, 255, 255, 0.6);
+      }
     }
   }
 }
@@ -968,139 +1020,31 @@ body {
       display: none;
     }
   }
-
-  .hero {
-    .container {
-      grid-template-columns: 1fr;
-      padding: 0 1rem;
-      text-align: center;
-
-      > * {
-        grid-column: 1;
-      }
-
-      h1 {
-        font-size: 2.5rem;
-        line-height: 1.2;
-      }
-
-      .hero-subtitle {
-        font-size: 1.125rem;
-      }
-    }
-  }
-
-  .features-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 0 1rem;
-  }
-
-  .cta-buttons {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 0 1rem;
-
-    .btn-primary,
-    .btn-secondary {
-      width: 100%;
-    }
-  }
 }
 
 /* Tablet-specific styles */
 @media (max-width: 1024px) {
-  .hero {
-    .container {
-      grid-template-columns: 1fr;
-      max-width: 90%;
-      padding: 0 2rem;
-    }
-  }
-
-  .video-section {
-    .container {
-      max-width: 90%;
-      
-      video {
-        width: 100%;
-        height: auto;
-      }
-    }
-  }
-
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+  .nav .container {
+    padding: 0 2rem;
   }
 }
 
 /* NEW: Large Screen Overrides */
 @include large {
-  /* Keep things from scaling too extremely on extra-wide screens. */
-
+  /* Keep specialized negative margins only for extra-wide screens if desired */
   .hero {
-    /* Slightly reduce the negative margin so it doesn't become huge */
-    margin-bottom: -10vh;
+    margin-bottom: -15vh;
   }
-
   .video-section {
-    /* That -65vh can be quite large on a 30" monitor; reduce it */
+    margin-top: -10vh;
     margin-bottom: -40vh;
   }
-
   .problem {
-    /* Scale down huge top padding from 32rem to something smaller */
-    padding: 24rem 0 12rem;
+    /* If you prefer negative margin here, uncomment:
+    margin-top: -15vh;
+    */
   }
-
   .solution {
     margin-top: -3vh;
-    /* Optionally reduce top/bottom padding if needed */
-  }
-}
-
-/* Legal Pages */
-.legal-content {
-  padding: 8rem 0;
-  min-height: calc(100vh - 200px);
-  background: white;
-
-  .container {
-    max-width: 900px;
-  }
-
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: var(--text-color);
-  }
-
-  .legal-section {
-    margin: 2.5rem 0;
-
-    h2 {
-      font-size: 1.75rem;
-      margin-bottom: 1rem;
-      color: var(--text-color);
-    }
-
-    p {
-      margin-bottom: 1rem;
-      line-height: 1.6;
-      color: #444;
-    }
-
-    ul {
-      list-style-type: disc;
-      margin-left: 1.5rem;
-      margin-bottom: 1rem;
-
-      li {
-        margin-bottom: 0.5rem;
-        line-height: 1.6;
-        color: #444;
-      }
-    }
   }
 }
