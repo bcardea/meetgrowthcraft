@@ -146,8 +146,18 @@ body {
     rgba(0, 0, 0, 0.7) 0%,
     rgba(0, 0, 0, 0.5) 100%
   );
-  margin-bottom: -15vh; /* Negative margin that looks good on ~13" screens */
+  margin-bottom: -15vh;
   z-index: 2;
+
+  @include tablet {
+    margin-bottom: -10vh;
+    padding: 6rem 0;
+  }
+
+  @include mobile {
+    margin-bottom: -5vh;
+    padding: 4rem 0;
+  }
 
   .hero-background {
     position: absolute;
@@ -261,10 +271,20 @@ body {
   position: relative;
   padding: 0;
   margin-top: -15vh;
-  margin-bottom: -65vh; /* Large negative margin that can break wide screens */
+  margin-bottom: -65vh;
   background: transparent;
   z-index: 3;
   pointer-events: none;
+
+  @include tablet {
+    margin-top: -10vh;
+    margin-bottom: -45vh;
+  }
+
+  @include mobile {
+    margin-top: -5vh;
+    margin-bottom: -35vh;
+  }
 
   .container {
     max-width: 750px;
@@ -280,18 +300,30 @@ body {
     aspect-ratio: 16/9;
     object-fit: cover;
     pointer-events: auto;
+
+    @include tablet {
+      height: auto;
+    }
   }
 }
 
 /* Problem Section */
 .problem {
-  padding: 32rem 0 12rem; /* Large top padding that can also scale oddly */
+  padding: 8rem 0;
   position: relative;
   color: white;
   overflow: visible;
   background: black;
   margin-top: -15vh;
   z-index: 1;
+
+  @include tablet {
+    padding: 6rem 0;
+  }
+
+  @include mobile {
+    padding: 4rem 0;
+  }
 
   .container {
     position: relative;
@@ -325,6 +357,10 @@ body {
     width: 100%;
     position: relative;
     height: 80px;
+
+    @include mobile {
+      margin-top: 1rem;
+    }
   }
 
   .carousel {
@@ -379,7 +415,6 @@ body {
     background-size: 70% auto;
     background-position: top center;
     background-repeat: no-repeat;
-    z-index: 1;
     opacity: 0.95;
 
     @include mobile {
@@ -916,10 +951,18 @@ body {
 /* Responsive Design Adjustments */
 /* ============================= */
 
-/* Existing Mobile Styles */
+/* Mobile-specific styles */
 @media (max-width: 768px) {
   .nav {
     padding: 1rem 0;
+
+    .container {
+      padding: 0 1rem;
+    }
+
+    .logo img {
+      height: 48px;
+    }
 
     .nav-links {
       display: none;
@@ -929,111 +972,66 @@ body {
   .hero {
     .container {
       grid-template-columns: 1fr;
-      padding: 0 2rem;
+      padding: 0 1rem;
+      text-align: center;
 
       > * {
         grid-column: 1;
       }
-    }
 
-    padding: 4rem 0; /* Reduce vertical padding for smaller screens */
+      h1 {
+        font-size: 2.5rem;
+        line-height: 1.2;
+      }
 
-    /* This helps remove the large negative margin on small devices */
-    margin-bottom: 0;
-
-    h1 {
-      font-size: 3rem;
-    }
-
-    .hero-subtitle {
-      font-size: 1.25rem;
+      .hero-subtitle {
+        font-size: 1.125rem;
+      }
     }
   }
 
-  /* Override video-section negative margins on mobile */
-  .video-section {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
     padding: 0 1rem;
   }
 
-  .problem,
-  .solution,
-  .faq,
-  .final-cta {
-    padding: 4rem 0;
+  .cta-buttons {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 1rem;
 
-    /* Remove negative margin for problem/solution on smaller devices */
-    margin-top: 0 !important;
-
-    h2 {
-      font-size: 2.5rem;
+    .btn-primary,
+    .btn-secondary {
+      width: 100%;
     }
   }
+}
 
-  /* Adjust problem padding on smaller screens */
-  .problem {
-    padding: 8rem 0 4rem;
-  }
-
-  .footer {
-    .footer-grid {
+/* Tablet-specific styles */
+@media (max-width: 1024px) {
+  .hero {
+    .container {
       grid-template-columns: 1fr;
-      gap: 2rem;
+      max-width: 90%;
+      padding: 0 2rem;
     }
   }
 
-  .mobile-menu-button {
-    display: block;
-  }
-
-  .nav {
-    .nav-links {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 80%;
-      max-width: 400px;
-      height: 100vh;
-      background: white;
-      padding: 6rem 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      transition: right 0.3s ease;
-      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-
-      a,
-      button {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-        color: var(--text-color);
-      }
-    }
-
-    &.menu-open {
-      .nav-links {
-        right: 0;
-      }
-
-      .mobile-menu-button {
-        span {
-          &:first-child {
-            transform: rotate(45deg) translate(5px, 5px);
-          }
-          &:nth-child(2) {
-            opacity: 0;
-          }
-          &:last-child {
-            transform: rotate(-45deg) translate(7px, -7px);
-          }
-        }
+  .video-section {
+    .container {
+      max-width: 90%;
+      
+      video {
+        width: 100%;
+        height: auto;
       }
     }
   }
 
-  .nav-hidden {
-    transform: translateY(-100%);
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
   }
 }
 
@@ -1053,7 +1051,6 @@ body {
 
   .problem {
     /* Scale down huge top padding from 32rem to something smaller */
-    margin-top: -10vh;
     padding: 24rem 0 12rem;
   }
 
